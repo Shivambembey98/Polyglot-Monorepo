@@ -1,0 +1,45 @@
+<div>
+  <div class="row mt-4">
+    <h5>Additional Services (Optional)</h5>
+  </div>
+  <div class="card">
+    <div class="add-services d-flex justify-content-between">
+      <div class="p-3">
+        <input id="radio1" type="radio" name="additional-service" />
+        <span class="mx-2">Meals</span>
+      </div>
+      <div class="p-3">
+        <input type="radio" name="additional-service" />
+        <span class="mx-2">Baggage</span>
+      </div>
+      <div class="p-3">
+        <input type="radio" name="additional-service" />
+        <span class="mx-2">Select Seats</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="seat-map-container position-relative">
+  <img src="../../../assets/svgs/Plane-Graphic-new.svg" alt="" class="plane-img" />
+
+  <!-- Centered Wrapper for Seat Grid -->
+  <div class="seat-grid-wrapper p-2">
+    <div class="seat-grid">
+      <div *ngFor="let row of seatRows" class="seat-row d-flex justify-content-center">
+<div *ngFor="let seat of row"
+     class="seat text-center"
+     (click)="onSeatSelect(seat)"
+     [attr.data-seat]="seat.label">
+
+  <!-- Seat Label Above -->
+  <div class="seat-label">{{ seat.label }}</div>
+
+  <!-- Seat Image Below -->
+  <img [src]="getSeatImage(seat.status)" [alt]="seat.label" class="seat-img" />
+</div>
+      </div>
+    </div>
+  </div>
+</div>

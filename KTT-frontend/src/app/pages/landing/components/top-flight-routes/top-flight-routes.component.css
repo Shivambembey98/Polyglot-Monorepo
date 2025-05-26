@@ -1,0 +1,6 @@
+.text-destination {
+  cursor: pointer;
+}
+.text-destination:hover {
+  text-decoration: underline;
+}

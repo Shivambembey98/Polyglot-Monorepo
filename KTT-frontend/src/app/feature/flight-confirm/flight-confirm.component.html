@@ -1,0 +1,479 @@
+<div class="body-page p-md-3">
+  <div class="container-fluid">
+    <div class="row mt-1">
+      <!-- Information Card -->
+      <div class="col-lg-9 col-md-12" >
+        <h5 class="mt-3 mb-2 text-base font-semibold">Review Details</h5>
+      
+        <div class="row">
+          <div class="border rounded-3 shadow-sm p-4 w-100 bg-white">
+            <!-- Flight Header -->
+            <div class="d-flex justify-content-between" *ngIf="flightDetails">
+              <div class="information">
+                <!--Multicity-->
+                <div *ngIf="searchFormData?.formType === 'multi-city'">
+                  <div *ngFor="let departureFlight of multicityFlight; let i = index">
+                    <ng-container *ngIf="departureFlight.flights?.length > 0; else directFlight">
+                      <div class="d-flex justify-content-between">
+                      <div *ngFor="let segment of departureFlight.flights; let i = index">
+                        <div class="fw-semibold text-dark" style="font-size: 15px">
+                          {{ segment.origin }}
+                          <span class="text-muted small ms-1">({{ segment.origin }})</span>
+                          <span class="mx-1">–</span>
+                          {{ segment.destination }}
+                          <span class="text-muted small ms-1">({{ segment.destination }})</span>
+                          <span>
+                            <img
+                              [src]="departureFlight.logo || flightDetails.flight_img"
+                              alt="Airline Logo"
+                              class="ms-2"
+                              style="height: 16px"
+                            />
+                            - {{ segment.flightNumber }}
+                          </span>
+                        </div>
+                
+                        <div class="text-muted small mt-1 d-flex gap-2 align-items-center flex-wrap">
+                          <span>{{ segment?.departureTime | date: 'EEE, MMM d, y' }}</span>
+                
+                          <span class="d-flex align-items-center gap-1">
+                            <span class="text-primary">
+                              <img src="assets/svgs/departure-plane.svg" alt="Departure" />
+                            </span>
+                            {{ segment.departureTime | date : "shortTime" }}
+                            <span class="text-danger fw-medium small">{{ segment.duration || 'N/A' }}</span>
+                            <span class="text-primary">
+                              <img src="assets/svgs/arrival-plane.svg" alt="Arrival" />
+                            </span>
+                            {{ segment.arrivalTime | date : "shortTime" }}
+                          </span>
+                
+                          <span>|</span>
+                          <span>{{ departureFlight?.cabinClass || 'Economy' }}</span>
+                        </div>
+                
+                        <!-- Layover Info -->
+                        <div *ngIf="i < departureFlight.flights.length - 1">
+                          <small class="text-muted ms-1">
+                            Layover at {{ departureFlight.flights[i].destination }}:
+                            {{
+                              departureFlight.layovers?.[departureFlight.flights[i].destination] || 'N/A'
+                            }}
+                            min
+                          </small>
+                        </div>
+                      </div>
+                      </div>
+                    </ng-container>
+                
+                    <!-- DIRECT FLIGHT CASE -->
+                    <ng-template #directFlight>
+                      <div class="fw-semibold text-dark" style="font-size: 15px">
+                        {{ departureFlight?.departure || 'Origin' }}
+                        <span class="text-muted small ms-1">({{ departureFlight?.departure || 'ORG' }})</span>
+                        <span class="mx-1">–</span>
+                        {{ departureFlight?.arrival || 'Destination' }}
+                        <span class="text-muted small ms-1">({{ departureFlight?.arrival || 'DST' }})</span>
+                        <span>
+                          <img
+                            [src]="departureFlight.logo || departureFlight.flight_img"
+                            alt="Airline Logo"
+                            class="ms-2"
+                            style="height: 16px"
+                          />
+                          - {{ departureFlight?.flightNumber }}
+                        </span>
+                      </div>
+                
+                      <div class="text-muted small mt-1 d-flex gap-2 align-items-center flex-wrap">
+                        <span>{{ departureFlight?.departure_day }}</span>
+                
+                        <span class="d-flex align-items-center gap-1">
+                          <span class="text-primary">
+                            <img src="assets/svgs/departure-plane.svg" alt="Departure" />
+                          </span>
+                          {{ departureFlight?.departure_time || '--:--' }}
+                          <span class="text-danger fw-medium small">{{ departureFlight?.duration || 'N/A' }}</span>
+                          <span class="text-primary">
+                            <img src="assets/svgs/arrival-plane.svg" alt="Arrival" />
+                          </span>
+                          {{ departureFlight?.arrival_time || '--:--' }}
+                        </span>
+                
+                        <span>|</span>
+                        <span>{{ departureFlight?.cabinClass || 'Economy' }}</span>
+                      </div>
+                    </ng-template>
+                        </div>
+                        </div>
+                <!-- DEPARTURE FLIGHT  -->
+              <div *ngIf="searchFormData?.formType !== 'multi-city'" [ngStyle]="arrivalFlight ? {'margin-bottom': '30px'} : {}">
+                <!-- CONNECTING FLIGHT CASE -->
+                <ng-container *ngIf="departureFlight.flights?.length > 0; else directFlight">
+                  <div>
+                  <div *ngFor="let segment of departureFlight.flights; let i = index">
+                    <div class="fw-semibold text-dark" style="font-size: 15px">
+                      {{ segment.origin }}
+                      <!-- <span class="text-muted small ms-1">({{ segment.origin }})</span> -->
+                      <span class="mx-1">–</span>
+                      {{ segment.destination }}
+                      <!-- <span class="text-muted small ms-1">({{ segment.destination }})</span> -->
+                      <!-- <span>
+                        <img
+                          [src]="departureFlight.logo || flightDetails.flight_img"
+                          alt="Airline Logo"
+                          class="ms-2"
+                          style="height: 16px"
+                        />
+                        - {{ segment.flightNumber }}
+                      </span> -->
+                    </div>
+            
+                    <div class="text-muted small mt-1 d-flex gap-2 align-items-center flex-wrap">
+                      <span>{{ segment?.departureTime | date: 'EEE, MMM d, y' }}</span>
+            
+                      <span class="d-flex align-items-center gap-1">
+                        <span class="text-primary">
+                          <img src="assets/svgs/departure-plane.svg" alt="Departure" />
+                        </span>
+                        {{ segment.departureTime | date : "shortTime" }}
+                        <span class="text-danger fw-medium small">{{ segment.duration || 'N/A' }}</span>
+                        <span class="text-primary">
+                          <img src="assets/svgs/arrival-plane.svg" alt="Arrival" />
+                        </span>
+                        {{ segment.arrivalTime | date : "shortTime" }}
+                      </span>
+            
+                      <span>|</span>
+                      <span>{{ departureFlight?.cabinClass || 'Economy' }}</span>
+                    </div>
+            
+                    <!-- Layover Info -->
+                    <div *ngIf="i < departureFlight.flights.length - 1" class="layover-details d-flex align-items-center m-2 gap-2">
+                      <div class="dotted-line"></div>
+                      <div class="d-flex align-items-center gap-2">
+                        <img
+                          src="../../../assets/svgs/small-plane.svg"
+                          alt="Plane"
+                          height="20"
+                        />
+                        <small class="text-danger ms-1">
+                          Layover at {{ departureFlight.flights[i].destination }}:
+                          {{
+                            departureFlight.layovers?.[departureFlight.flights[i].destination] || 'N/A'
+                          }}
+                          min
+                        </small>
+                      </div>
+                      <div class="dotted-line"></div>
+                    </div>
+                  </div>
+                  </div>
+                </ng-container>
+            
+                <!-- DIRECT FLIGHT CASE -->
+                <ng-template #directFlight>
+                  <div class="fw-semibold text-dark" style="font-size: 15px">
+                    {{ departureFlight?.departure || 'Origin' }}
+                    <span class="text-muted small ms-1">({{ departureFlight?.departure || 'ORG' }})</span>
+                    <span class="mx-1">–</span>
+                    {{ departureFlight?.arrival || 'Destination' }}
+                    <span class="text-muted small ms-1">({{ departureFlight?.arrival || 'DST' }})</span>
+                    <!-- <span>
+                      <img
+                        [src]="departureFlight.logo || departureFlight.flight_img"
+                        alt="Airline Logo"
+                        class="ms-2"
+                        style="height: 16px"
+                      />
+                      - {{ departureFlight?.flightNumber }}
+                    </span> -->
+                  </div>
+            
+                  <div class="text-muted small mt-1 d-flex gap-2 align-items-center flex-wrap">
+                    <span>{{ departureFlight?.departure_day }}</span>
+            
+                    <span class="d-flex align-items-center gap-1">
+                      <span class="text-primary">
+                        <img src="assets/svgs/departure-plane.svg" alt="Departure" />
+                      </span>
+                      {{ departureFlight?.departure_time || '--:--' }}
+                      <span class="text-danger fw-medium small">{{ departureFlight?.duration || 'N/A' }}</span>
+                      <span class="text-primary">
+                        <img src="assets/svgs/arrival-plane.svg" alt="Arrival" />
+                      </span>
+                      {{ departureFlight?.arrival_time || '--:--' }}
+                    </span>
+            
+                    <span>|</span>
+                    <span>{{ departureFlight?.cabinClass || 'Economy' }}</span>
+                  </div>
+                </ng-template>
+              </div>
+                <!-- ARRIVAL FLIGHT -->
+              <div *ngIf="arrivalFlight && searchFormData?.formType !== 'multi-city'">
+                <!-- CONNECTING FLIGHT CASE -->
+                <ng-container *ngIf="arrivalFlight.flights?.length > 0; else directFlight">
+                  <div class="">
+                  <div *ngFor="let segment of arrivalFlight.flights; let i = index">
+                    <div class="fw-semibold text-dark" style="font-size: 15px">
+                      {{ segment.origin }}
+                      <span class="text-muted small ms-1">({{ segment.origin }})</span>
+                      <span class="mx-1">–</span>
+                      {{ segment.destination }}
+                      <span class="text-muted small ms-1">({{ segment.destination }})</span>
+                      <!-- <span>
+                        <img
+                          [src]="arrivalFlight.logo || flightDetails.flight_img"
+                          alt="Airline Logo"
+                          class="ms-2"
+                          style="height: 16px"
+                        />
+                        - {{ segment.flightNumber }}
+                      </span> -->
+                    </div>
+            
+                    <div class="text-muted small mt-1 d-flex gap-2 align-items-center flex-wrap">
+                      <span>{{ segment?.departureTime | date: 'EEE, MMM d, y' }}</span>
+            
+                      <span class="d-flex align-items-center gap-1">
+                        <span class="text-primary">
+                          <img src="assets/svgs/departure-plane.svg" alt="Departure" />
+                        </span>
+                        {{ segment.departureTime | date : "shortTime" }}
+                        <span class="text-danger fw-medium small">{{ segment.duration || 'N/A' }}</span>
+                        <span class="text-primary">
+                          <img src="assets/svgs/arrival-plane.svg" alt="Arrival" />
+                        </span>
+                        {{ segment.arrivalTime | date : "shortTime" }}
+                      </span>
+            
+                      <span>|</span>
+                      <span>{{ flightDetails?.cabinClass || 'Economy' }}</span>
+                    </div>
+            
+                    <!-- Layover Info -->
+                    <div *ngIf="i < arrivalFlight.flights.length - 1" class="layover-details d-flex align-items-center m-2 gap-2">
+                      <div class="dotted-line"></div>
+                      <div class="d-flex align-items-center gap-2">
+                        <img
+                          src="../../../assets/svgs/small-plane.svg"
+                          alt="Plane"
+                          height="20"
+                        />
+                        <small class="text-danger ms-1">
+                          Layover at {{ arrivalFlight.flights[i].destination }}:
+                          {{
+                            arrivalFlight.layovers?.[arrivalFlight.flights[i].destination] || 'N/A'
+                          }}
+                          min
+                        </small>
+                      </div>
+                      <div class="dotted-line"></div>
+                    </div>
+                  </div>
+                </div>
+                </ng-container>
+            
+                <!-- DIRECT FLIGHT CASE -->
+                <ng-template #directFlight>
+                  <div class="fw-semibold text-dark" style="font-size: 15px">
+                    {{ arrivalFlight?.departure || 'Origin' }}
+                    <span class="text-muted small ms-1">({{ arrivalFlight?.departure || 'ORG' }})</span>
+                    <span class="mx-1">–</span>
+                    {{ arrivalFlight?.arrival || 'Destination' }}
+                    <span class="text-muted small ms-1">({{ arrivalFlight?.arrival || 'DST' }})</span>
+                    <!-- <span>
+                      <img
+                        [src]="arrivalFlight.logo || arrivalFlight.flight_img"
+                        alt="Airline Logo"
+                        class="ms-2"
+                        style="height: 16px"
+                      />
+                      - {{ arrivalFlight?.flightNumber }}
+                    </span> -->
+                  </div>
+            
+                  <div class="text-muted small mt-1 d-flex gap-2 align-items-center flex-wrap">
+                    <span>{{ arrivalFlight?.departure_day }}</span>
+            
+                    <span class="d-flex align-items-center gap-1">
+                      <span class="text-primary">
+                        <img src="assets/svgs/departure-plane.svg" alt="Departure" />
+                      </span>
+                      {{ arrivalFlight?.departure_time || '--:--' }}
+                      <span class="text-danger fw-medium small">{{ arrivalFlight?.duration || 'N/A' }}</span>
+                      <span class="text-primary">
+                        <img src="assets/svgs/arrival-plane.svg" alt="Arrival" />
+                      </span>
+                      {{ arrivalFlight?.arrival_time || '--:--' }}
+                    </span>
+            
+                    <span>|</span>
+                    <span>{{ arrivalFlight?.cabinClass || 'Economy' }}</span>
+                  </div>
+                </ng-template>
+              </div>
+            </div>
+            <div>
+              <button
+              class="btn text-sm text-blue-600 hover:underline whitespace-nowrap p-0 flex items-center gap-1"
+              (click)="toggleDetails()"
+            >
+              {{ showDetails ? "Hide Details" : "Show Details" }}
+              <span [ngClass]="showDetails ? 'rotate-180' : ''" class="transition-transform">></span>
+            </button>            
+            </div>
+            </div>
+                     
+            <!-- Passenger Details -->
+            <div *ngIf="showDetails" class="collapse show mt-4 border-top pt-3">
+              <div *ngFor="let passenger of formData?.travelDtoList" class="mb-3">
+                <div class="d-flex justify-content-between text-secondary" style="font-size: 15px">
+                  <div class="d-flex align-items-center gap-2 fw-medium">
+                    <span class="text-primary">🪪</span>
+                    {{ passenger?.firstName }} {{ passenger?.lastName }}
+                  </div>
+                  <div class="d-flex gap-3">
+                    <span>{{ passenger?.gender }}</span>
+                    <span>
+                      {{ passenger[passenger?.travelerType] || passenger?.travelerType }}
+                    </span>
+                  </div>
+                </div>
+      
+                <div class="d-flex align-items-center mt-3 text-secondary" style="font-size: 15px">
+                  <span class="text-primary me-2">👤</span>
+                  <span class="me-1 text-muted">Booking Details sent to:</span>
+                  <span class="fw-medium text-dark">{{ passenger?.firstName }} {{ passenger?.lastName }}</span>
+                  <span class="mx-2">–</span>
+                  <span>{{ passenger?.email }}</span>
+                  <span class="mx-2">–</span>
+                  <span>+91 {{ passenger?.phoneNumber }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>      
+      <!-- Payment Card -->
+      <div class="col-lg-3 col-md-12">
+        <div class="payment-card position-sticky" style="top: 10px">
+          <div class="row mt-3">
+            <h5>Payment Details</h5>
+          </div>
+          <div class="card">
+            <div class="card-body">
+              <div class="main-fare p-3">
+                <!-- Base Fare Section -->
+                <div class="d-flex justify-content-between align-items-center mb-2 base-fare-section" 
+                     (click)="toggleBaseFareBreakdown()" 
+                     [class.active]="showBaseFareBreakdown">
+                  <p>Base Fare</p>
+                  <h6>₹{{ totalBaseFare }}</h6>
+                </div>
+                <!-- Base Fare Breakdown -->
+                <div class="fare-breakdown ms-3 mb-2" *ngIf="showBaseFareBreakdown">
+                  <div *ngFor="let breakdown of priceBreakdown" class="small text-muted">
+                    <div class="d-flex justify-content-between">
+                      <span>{{ breakdown.label }} ({{ breakdown.count }} × ₹{{ breakdown.baseFare / breakdown.count }})</span>
+                      <span>₹{{ breakdown.baseFare }}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <p>Fee & Surcharges</p>
+                  <h6>₹{{ totalTaxes }}</h6>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <p>Convenience fee</p>
+                  <h6>0</h6>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <p>cGST</p>
+                  <h6>₹0</h6>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <p>sGST</p>
+                  <h6>₹0</h6>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <p>IGST</p>
+                  <h6>₹0</h6>
+                </div>
+              </div>
+              <hr />
+              <div class="fare-addon">
+                <div class="d-flex justify-content-between mb-2">
+                  <p>Total Fare</p>
+                  <h6>₹{{ totalFare }}</h6>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                  <p>Add Ons</p>
+                  <h6>₹0</h6>
+                </div>
+              </div>
+              <hr />
+              <div class="final-price">
+                <div class="d-flex justify-content-between">
+                  <p>Price You Pay</p>
+                  <h6>₹{{ totalFare }}</h6>
+                </div>
+              </div>
+              <div class="terms-acknowledge">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  id="flexCheckDefault"
+                />
+                <small>
+                  I understand and agree with the Fare Rules, the Privacy Policy
+                  , the User Agreement and Terms of Service.</small
+                >
+              </div>
+            </div>
+          </div>
+          <div class="my-3">
+            <button
+            type="submit"
+            class="btn continue-btn w-100"
+            (click)="handleContinueClick()"
+          >
+            Continue
+          </button>           
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Confirmation Modal   -->
+<!-- Modal Overlay -->
+<div
+  class="modal fade show"
+  tabindex="-1"
+  *ngIf="isModalOpen"
+  (click)="closeModal()"
+  style="display: block; background-color: rgba(0, 0, 0, 0.4)"
+>
+  <!-- Modal Content -->
+  <div
+    class="modal-dialog modal-dialog-centered"
+    (click)="$event.stopPropagation()"
+  >
+    <div class="modal-content">
+      <div class="modal-header d-flex align-items-center gap-2">
+        <img src="assets/svgs/approval-symbol-in-badge 1.svg" alt="">
+        <h5 class="modal-title text-success m-0">Booking Confirmed</h5>
+      </div>
+      <div class="modal-body">
+        <p>Your flight booking is confirmed. You will receive your e-ticket and travel details shortly.</p>
+        <p>For any queries, please contact us at +91xxxxxxxxxx.</p>
+        <button class="btn btn-success" (click)="closeModal()">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+

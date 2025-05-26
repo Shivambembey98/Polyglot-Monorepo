@@ -1,0 +1,4 @@
+com/ktt/services/EmailServiceTest.class
+com/ktt/services/ForgotPasswordServiceTest.class
+com/ktt/services/impl/AuthServiceTest.class
+com/ktt/services/impl/OtpServiceTest.class

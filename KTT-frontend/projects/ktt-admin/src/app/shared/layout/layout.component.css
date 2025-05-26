@@ -1,0 +1,10 @@
+app-sidebar {
+  width: 200px;
+  min-width: 200px;
+}
+@media (max-width: 768px) {
+    app-sidebar {
+      min-width: 70px;
+      width: 70px;
+    }
+}

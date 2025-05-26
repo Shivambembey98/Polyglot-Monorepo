@@ -1,0 +1,105 @@
+<div class="container-fluid p-4">
+    <!-- Top Stats -->
+    <div class="row g-3 mb-4">
+      <div class="col-md-3 col-sm-6">
+        <div class="sales-card p-3 rounded-4">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="mb-1">Sales</h6>
+              <h4 class="mb-0">721K</h4>
+            </div>
+            <div>
+              <small class="text-success fw-semibold">
+                -0.03% <span class="fs-6">⬊</span>
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3 col-sm-6">
+        <div class="cancel-card p-3 rounded-4">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="mb-1">Cancellation</h6>
+              <h4 class="mb-0">367K</h4>
+            </div>
+            <div>
+              <small class="text-danger fw-semibold">
+                -0.03% <span class="fs-6">⬊</span>
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-3 col-sm-6">
+        <div class="new-customer-card p-3 rounded-4">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="mb-1">New Customer</h6>
+              <h4 class="mb-0">1,156</h4>
+            </div>
+            <div>
+              <small class="text-success fw-semibold">
+                -0.03% <span class="fs-6">⬊</span>
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-3 col-sm-6">
+        <div class="active-customer-card p-3 rounded-4">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="mb-1">Active Customer</h6>
+              <h4 class="mb-0">239K</h4>
+            </div>
+            <div>
+              <small class="text-danger fw-semibold">
+                -0.03% <span class="fs-6">⬊</span>
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>   
+    </div>
+  
+    <!-- Charts -->
+    <div class="row g-3 mb-4">
+      <div class="col-lg-8">
+        <div class="card p-3">
+          <h6>Total Revenue</h6>
+          <canvas #revenueChart></canvas>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card p-3">
+          <h6>Traffic by Website</h6>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between">Google <span class="bar w-25 bg-secondary"></span></li>
+            <li class="list-group-item d-flex justify-content-between">YouTube <span class="bar w-50 bg-secondary"></span></li>
+            <li class="list-group-item d-flex justify-content-between">Instagram <span class="bar w-100 bg-dark"></span></li>
+            <!-- Add others as needed -->
+          </ul>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Bottom Stats -->
+    <div class="row g-3">
+      <div class="col-md-6">
+        <div class="card p-3">
+          <h6>Traffic by Device</h6>
+          <canvas #deviceChart height="200"></canvas>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card p-3">
+          <h6>Sales</h6>
+          <canvas #salesPie height="300"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>

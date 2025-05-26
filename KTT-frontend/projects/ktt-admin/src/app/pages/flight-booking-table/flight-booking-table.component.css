@@ -1,0 +1,19 @@
+.payment-badge{
+    background-color: #7152F31A;
+    color: #7152F3;
+}
+.status-success {
+    background-color: #90F3521A; /* Custom green */
+    color: #45AA06;
+  }
+  
+  .status-failed {
+    background-color: #F365521A; /* Custom red */
+    color: #F36552;
+  }
+  
+  .status-pending {
+    background-color: #FFF9BB; /* Custom orange */
+    color: #847B00;
+  }
+  

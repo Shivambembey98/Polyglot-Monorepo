@@ -1,0 +1,28 @@
+/* You can add global styles to this file, and also import other style files */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f8f9fa;
+}
+
+.btn-primary {
+  background-color: #007191;
+  border-color: #007191;
+}
+
+.btn-primary:hover {
+  background-color: #005a73;
+  border-color: #005a73;
+}
+
+.text-primary {
+  color: #007191 !important;
+}
+
+.bg-primary {
+  background-color: #007191 !important;
+}
+.cdk-overlay-container {
+  position: fixed !important;
+  z-index: 1000 !important;
+}
+

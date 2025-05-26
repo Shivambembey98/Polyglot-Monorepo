@@ -1,0 +1,59 @@
+.edit-btn {
+  background-color: #007191;
+  color: white;
+}
+.card-body {
+  background-color: #f3f7fc80;
+}
+html {
+  scroll-behavior: smooth;
+}
+.heading {
+  color: #a2a1a8;
+}
+.profile-img {
+  border: 1px solid black;
+  border-radius: 10px;
+}
+.profile-container {
+  display: flex;
+  height: calc(100vh - 100px); /* Adjust this offset to your header height */
+  overflow: hidden;
+}
+
+.sidebar-fixed {
+  width: 200px;
+  flex-shrink: 0;
+}
+.list-group {
+  border: 1px solid #a2a1a833;
+}
+.scrollable-content {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+.list-group-item {
+  border: none !important; /* Remove borders between items */
+  border-radius: 5px !important; /* Optional: square corners */
+  background-color: transparent; /* default */
+  color: #000;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.list-group-item img {
+  filter: brightness(0) saturate(100%);
+  margin-right: 8px;
+}
+
+.list-group-item.active-tab {
+  background-color: #007191 !important;
+  color: #fff !important;
+}
+
+.list-group-item.active-tab img {
+  filter: brightness(0) invert(1); /* makes white icons */
+}
+.section-header {
+  padding-left: 0.5rem;
+  border-left: 3px solid #007191; /* Blue vertical line */
+}

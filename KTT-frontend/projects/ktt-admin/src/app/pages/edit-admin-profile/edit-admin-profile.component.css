@@ -1,0 +1,17 @@
+::ng-deep .edit-admin-profile-modal .mat-dialog-container {
+    padding: 0;
+  }
+  .save-btn {
+    background-color: #007191;
+    color: white;
+  }
+  ::ng-deep .iti__country-list {
+    max-height: 300px !important;
+    overflow-y: auto !important;
+  }
+  ::ng-deep .iti {
+    width: 100% !important;
+  }
+  ::ng-deep .iti__tel-input {
+    width: 100% !important;
+  }

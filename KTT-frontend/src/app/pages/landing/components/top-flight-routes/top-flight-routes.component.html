@@ -1,0 +1,147 @@
+<section id="top-flight-routes" class="my-5">
+    <div class="container my-4">
+      <h6 class="my-2">Check out top routes</h6>
+      <h1 class="my-2">Top Flight Routes</h1>
+      <div class="row g-4 mt-2">
+        <!-- Flight Route 1 -->
+<!-- Flight Route 1: Mumbai -->
+<div class="col-lg-4 col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <div class="image-container">
+            <img src="assets/images/mumbai.svg" alt="Mumbai Flights" style="width: 50px; height: 50px" />
+          </div>
+          <div>
+            <h6 class="card-title">From: Mumbai Flights</h6>
+            <p class="card-text">
+              To:
+              <span class="text-destination fw-semibold" (click)="searchFlight('BOM', 'GOI')">Goa</span>,
+              <span class="text-destination fw-semibold" (click)="searchFlight('BOM', 'DEL')">Delhi</span>,
+              <span class="text-destination fw-semibold" (click)="searchFlight('BOM', 'BLR')">Bangalore</span>,
+              <span class="text-destination fw-semibold" (click)="searchFlight('BOM', 'AMD')">Ahmedabad</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Flight Route 2: Delhi -->
+  <div class="col-lg-4 col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <div class="image-container">
+            <img src="assets/images/delhi.svg" alt="Delhi Flights" style="width: 50px; height: 50px" />
+          </div>
+          <div>
+            <h6 class="card-title">From: Delhi Flights</h6>
+            <p class="card-text">
+              To:
+              <span class="text-destination fw-semibold" (click)="searchFlight('DEL', 'BOM')">Mumbai</span>,
+              <span class="text-destination fw-semibold" (click)="searchFlight('DEL', 'GOI')">Goa</span>,
+              <span class="text-destination fw-semibold" (click)="searchFlight('DEL', 'BLR')">Bangalore</span>,
+              <span class="text-destination fw-semibold" (click)="searchFlight('DEL', 'PNQ')">Pune</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Flight Route 3: Kolkata -->
+  <div class="col-lg-4 col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <div class="image-container">
+            <img src="assets/images/kolkata.svg" alt="Kolkata Flights" style="width: 50px; height: 50px" />
+          </div>
+          <div>
+            <h6 class="card-title">From: Kolkata Flights</h6>
+            <p class="card-text">
+              To:
+              <span class="text-destination fw-semibold" (click)="searchFlight('CCU', 'BOM')">Mumbai</span>,
+              <span class="text-destination fw-semibold" (click)="searchFlight('CCU', 'GOI')">Goa</span>,
+              <span class="text-destination fw-semibold" (click)="searchFlight('CCU', 'DEL')">Delhi</span>,
+              <span class="text-destination fw-semibold" (click)="searchFlight('CCU', 'BLR')">Bangalore</span>,
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Flight Route 4: Chennai -->
+  <div class="col-lg-4 col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <div class="image-container">
+            <img src="assets/images/chennai.svg" alt="Chennai Flights" style="width: 50px; height: 50px" />
+          </div>
+          <div>
+            <h6 class="card-title">From: Chennai Flights</h6>
+            <p class="card-text">
+              To:
+              <span class="text-destination fw-semibold" (click)="searchFlight('MAA', 'BOM')">Mumbai</span>,
+              <span class="text-destination fw-semibold" (click)="searchFlight('MAA', 'DEL')">Delhi</span>,
+              <span class="text-destination fw-semibold" (click)="searchFlight('MAA', 'IXM')">Madurai</span>,
+              <span class="text-destination fw-semibold" (click)="searchFlight('MAA', 'CJB')">Coimbatore</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Flight Route 5: Hyderabad -->
+  <div class="col-lg-4 col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <div class="image-container">
+            <img src="assets/images/hyderabad.svg" alt="Hyderabad Flights" style="width: 50px; height: 50px" />
+          </div>
+          <div>
+            <h6 class="card-title">From: Hyderabad Flights</h6>
+            <p class="card-text">
+              To:
+              <span class="text-destination fw-semibold" (click)="searchFlight('HYD', 'BOM')">Mumbai</span>,
+              <span class="text-destination fw-semibold" (click)="searchFlight('HYD', 'GOI')">Goa</span>,
+              <span class="text-destination fw-semibold" (click)="searchFlight('HYD', 'BLR')">Bangalore</span>,
+              <span class="text-destination fw-semibold" (click)="searchFlight('HYD', 'DEL')">Delhi</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Flight Route 6: Ahmedabad -->
+  <div class="col-lg-4 col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <div class="image-container">
+            <img src="assets/images/ahmedabad.svg" alt="Ahmedabad Flights" style="width: 50px; height: 50px" />
+          </div>
+          <div>
+            <h6 class="card-title">From: Ahmedabad Flights</h6>
+            <p class="card-text">
+              To:
+              <span class="text-destination fw-semibold" (click)="searchFlight('AMD', 'BOM')">Mumbai</span>,
+              <span class="text-destination fw-semibold" (click)="searchFlight('AMD', 'DEL')">Delhi</span>,
+              <span class="text-destination fw-semibold" (click)="searchFlight('AMD', 'BLR')">Bangalore</span>,
+              <span class="text-destination fw-semibold" (click)="searchFlight('AMD', 'GOI')">Goa</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+      </div>
+    </div>
+  </section>

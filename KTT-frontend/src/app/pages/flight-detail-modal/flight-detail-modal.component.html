@@ -1,0 +1,386 @@
+<mat-dialog-content>
+  <div class="modal-wrapper position-relative">
+    <!-- Background image -->
+    <img
+      src="../../../assets/svgs/world-map.svg"
+      alt="Background"
+      class="background-image"
+    />
+    <div class="modal-content position-relative">
+      <div class="modal-header">
+        <h5 class="modal-title">Your Flight Detail</h5>
+        <!-- <button
+              mat-icon-button
+              class="close-btn position-absolute top-0 end-0 m-2"
+              (click)="close()"
+              aria-label="Close"
+            >
+              <mat-icon>close</mat-icon>
+            </button> -->
+        <!-- <mat-icon>close</mat-icon> -->
+        <button
+          class="close-btn position-absolute end-0 m-2"
+          (click)="onClose()"
+          mat-dialog-close
+        >
+          x
+        </button>
+      </div>
+      <hr />
+      <div class="container">
+        <!-- Multi-city Flights -->
+        <div
+          *ngIf="data.searchFormData?.formType === 'multi-city'"
+          class="mb-4"
+        >
+          <div
+            *ngFor="let flight of data.multicityFlight; let flightIndex = index"
+            class="mb-4"
+          >
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <h6 class="mb-0">Flight {{ flightIndex + 1 }}</h6>
+              <span class="text-muted">{{ flight.departure_day }}</span>
+            </div>
+
+            <!-- Connecting Flights -->
+            <ng-container *ngIf="flight.flights?.length > 0; else directFlight">
+              <div *ngFor="let segment of flight.flights; let i = index">
+                <div
+                  class="d-flex justify-content-between align-items-center mb-2"
+                >
+                  <div>
+                    <strong>{{ getCityName(segment.origin) }}</strong>
+                    ({{ segment.origin }}) →
+                    <strong>{{ getCityName(segment.destination) }}</strong>
+                    ({{ segment.destination }})
+                  </div>
+
+                  <div>
+                    <img [src]="flight.logo" alt="Airline Logo" height="20" />
+                    - {{ segment.flightNumber }}
+                  </div>
+
+                  <div>
+                    <span>{{
+                      segment.departureTime | date : "shortTime"
+                    }}</span>
+                    →
+                    <span class="text-danger">{{ segment.duration }}</span>
+                    →
+                    <span>{{ segment.arrivalTime | date : "shortTime" }}</span>
+                  </div>
+                </div>
+
+                <!-- Layover Info -->
+                <div *ngIf="i < flight.flights.length - 1">
+                  <small class="text-muted ms-1">
+                    Layover at {{ flight.flights[i].destination }}:
+                    {{ flight.layovers?.[flight.flights[i].destination] }}
+                    min
+                  </small>
+                </div>
+              </div>
+            </ng-container>
+
+            <!-- Direct Flight -->
+            <ng-template #directFlight>
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <strong>{{ getCityName(flight.departure) }}</strong>
+                  ({{ flight.departure }}) →
+                  <strong>{{ getCityName(flight.arrival) }}</strong>
+                  ({{ flight.arrival }})
+                </div>
+
+                <div>
+                  <img [src]="flight.logo" alt="Airline Logo" height="20" />
+                  - {{ flight.flightNumber }}
+                </div>
+
+                <div>
+                  <span>{{ flight.departure_time }}</span>
+                  →
+                  <span class="text-danger">{{ flight.duration }}</span>
+                  →
+                  <span>{{ flight.arrival_time }}</span>
+                </div>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+
+        <!-- Departure Flight -->
+        <div
+          *ngIf="
+            data.departureFlight &&
+            data.searchFormData?.formType !== 'multi-city'
+          "
+          class="mb-4"
+        >
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <h6 class="mb-0">Departure Flight</h6>
+            <span class="text-muted">{{
+              data.departureFlight.departure_day
+            }}</span>
+          </div>
+          <ng-container
+            *ngIf="
+              data.departureFlight.flights?.length > 0;
+              else singleDeparture
+            "
+          >
+            <div
+              *ngFor="
+                let segment of data.departureFlight.flights;
+                let i = index
+              "
+            >
+              <div
+                class="d-flex justify-content-between align-items-center mb-2"
+              >
+                <div>
+                  <strong>{{ getCityName(segment.origin) }}</strong> ({{
+                    segment.origin
+                  }}) →
+                  <strong>{{ getCityName(segment.destination) }}</strong> ({{
+                    segment.destination
+                  }})
+                </div>
+                <div>
+                  <img
+                    [src]="
+                      data.departureFlight.logo ||
+                      data.departureFlight.flight_img
+                    "
+                    alt="Airline Logo"
+                    height="20"
+                  />
+                  - {{ segment.flightNumber }}
+                </div>
+                <div>
+                  <span>{{ segment.departureTime | date : "HH:mm" }}</span>
+                  →
+                  <span class="text-danger">{{ segment.duration }}</span>
+                  →
+                  <span>{{ segment.arrivalTime | date : "HH:mm" }}</span>
+                </div>
+              </div>
+
+              <!-- Layover Info -->
+              <div *ngIf="i < data.departureFlight.flights.length - 1">
+                <small class="text-muted ms-1">
+                  Layover at {{ data.departureFlight.flights[i].destination }}:
+                  {{ data.departureFlight.layovers?.[data.departureFlight.flights[i].destination] }}
+                  min
+                </small>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-template #singleDeparture>
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <strong>{{
+                  getCityName(data.departureFlight.departure)
+                }}</strong>
+                ({{ data.departureFlight.departure }}) →
+                <strong>{{ getCityName(data.departureFlight.arrival) }}</strong>
+                ({{ data.departureFlight.arrival }})
+              </div>
+              <div>
+                <img
+                  [src]="data.departureFlight.logo"
+                  alt="Airline Logo"
+                  height="20"
+                />
+                - {{ data.departureFlight.flightNumber }}
+              </div>
+              <div>
+                <span>{{ data.departureFlight.departure_time }}</span>
+                →
+                <span class="text-danger">{{
+                  data.departureFlight.duration
+                }}</span>
+                →
+                <span>{{ data.departureFlight.arrival_time }}</span>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+        <div
+          *ngIf="
+            data.arrivalFlight && data.searchFormData?.formType !== 'multi-city'
+          "
+          class="mb-4"
+        >
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <h6 class="mb-0">Arrival Flight</h6>
+            <span class="text-muted">{{
+              data.arrivalFlight.departure_day
+            }}</span>
+          </div>
+          <ng-container
+            *ngIf="data.arrivalFlight.flights?.length; else singleArrival"
+          >
+            <div
+              *ngFor="let segment of data.arrivalFlight.flights; let i = index"
+            >
+              <div
+                class="d-flex justify-content-between align-items-center mb-2"
+              >
+                <div>
+                  <strong>{{ getCityName(segment.origin) }}</strong>
+                  ({{ segment.origin }}) →
+                  <strong>{{ getCityName(segment.destination) }}</strong>
+                  ({{ segment.destination }})
+                </div>
+
+                <div>
+                  <img
+                    [src]="
+                      data.arrivalFlight.logo || data.arrivalFlight.flight_img
+                    "
+                    alt="Airline Logo"
+                    height="20"
+                  />- {{ segment.flightNumber }}
+                </div>
+
+                <div>
+                  <span>{{ segment.departureTime | date : "HH:mm" }}</span>
+                  →
+                  <span class="text-danger">{{ segment.duration }}</span>
+                  →
+                  <span>{{ segment.arrivalTime | date : "HH:mm" }}</span>
+                </div>
+              </div>
+              <!-- Layover Info -->
+              <div *ngIf="i < data.arrivalFlight.flights.length - 1">
+                <small class="text-muted ms-1">
+                  Layover at {{ data.arrivalFlight.flights[i].destination }}:
+                  {{
+                     data.arrivalFlight.layovers?.[data.arrivalFlight.flights[i].destination]
+                  }}
+                  min
+                </small>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-template #singleArrival>
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <strong>{{ getCityName(data.arrivalFlight.departure) }}</strong>
+                ({{ data.arrivalFlight.departure }}) →
+                <strong>{{ getCityName(data.arrivalFlight.arrival) }}</strong>
+                ({{ data.arrivalFlight.arrival }})
+              </div>
+
+              <div>
+                <img
+                  [src]="
+                    data.arrivalFlight?.logo || data.arrivalFlight.flight_img
+                  "
+                  alt="Airline Logo"
+                  height="20"
+                />- {{ data.arrivalFlight.flightNumber }}
+              </div>
+
+              <div>
+                <span> {{ data.arrivalFlight.departure_time }}</span>
+                →
+                <span class="text-danger">{{
+                  data.arrivalFlight.duration
+                }}</span>
+                →
+                <span> {{ data.arrivalFlight.arrival_time }}</span>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+
+        <div class="review-page" *ngIf="formData">
+          <h5 class="mb-2">Passenger & Contact Information</h5>
+          <div class="table-responsive mb-2">
+            <div class="rounded-2 border">
+              <table class="table table-striped align-middle mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th>#</th>
+                    <th>Full Name</th>
+                    <th>Surname</th>
+                    <th>Gender</th>
+                    <th>D.O.B</th>
+                    <th>Nationality</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="
+                      let passenger of formData.travelDtoList;
+                      let i = index
+                    "
+                  >
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ passenger.prefix }} {{ passenger.firstName }}</td>
+                    <td>{{ passenger.lastName }}</td>
+                    <td>{{ passenger.gender === "M" ? "Male" : "Female" }}</td>
+                    <td>{{ passenger.dob || "N/A" }}</td>
+                    <td>{{ passenger.nationality || "Indian" }}</td>
+                    <td>{{ passenger.phoneNumber || "+91 XXXXXXXX" }}</td>
+                    <td>{{ passenger.email || "N/A" }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Price & Actions -->
+        <div class="d-flex justify-content-between align-items-center">
+          <h4 class="mb-0 text-success">₹{{ data.totalFare }}</h4>
+          <div class="d-flex align-items-center gap-3">
+            <!-- <button
+              class="btn book-flight"
+              mat-button
+              [disabled]="isLoading"
+            >
+              <span
+                *ngIf="isLoading"
+                class="spinner-border spinner-border-sm me-2"
+                role="status"
+              ></span>
+              <img
+                *ngIf="!isLoading"
+                src="../../../assets/icons/search.svg"
+                alt="Search Icon"
+                class="me-1"
+              />
+              {{ isLoading ? "Booking..." : "Book Flight" }}
+            </button> -->
+            <button
+            class="btn book-flight d-flex align-items-center"
+            mat-button
+            [disabled]="isLoading"
+            (click)="closeAndNavigate()"
+          >
+            <span
+              *ngIf="isLoading"
+              class="spinner-border spinner-border-sm me-2"
+              role="status"
+            ></span>
+            <img
+              *ngIf="!isLoading"
+              src="../../../assets/icons/search.svg"
+              alt="Search Icon"
+              class="me-1"
+            />
+            {{ isLoading ? 'Loading...' : 'Book Flight' }}
+          </button>                    
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>

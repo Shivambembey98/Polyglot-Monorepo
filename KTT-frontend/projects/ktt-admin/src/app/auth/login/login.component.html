@@ -1,0 +1,57 @@
+<div class="container d-flex justify-content-center align-items-center login-container">
+    <div class="row w-100 justify-content-center">
+      <div class="col-12 col-sm-10 col-md-8 col-lg-6">
+        <div class="card p-4">
+          <div class="card-body">
+            <h3 class="heading text-center mb-4">Admin Login</h3>
+  
+            <form [formGroup]="form" (ngSubmit)="onLogin()">
+              <!-- Email -->
+              <div class="mb-3">
+                <label class="form-label text-muted">Email</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-white border-end-0">
+                    <!-- <img src="../../../../../../src/assets/icons/admin-mail.svg" alt="email" width="20" /> -->
+                  </span>
+                  <input
+                    type="email"
+                    class="form-control border-start-0"
+                    formControlName="email"
+                    placeholder="Enter email"
+                    required
+                  />
+                </div>
+              </div>
+  
+              <!-- Password -->
+              <div class="mb-4">
+                <label class="form-label text-muted">Password</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-white border-end-0">
+                    <!-- <img src="../../../../../../src/assets/icons/admin-password.svg" alt="lock" width="20" /> -->
+                  </span>
+                  <input
+                    type="password"
+                    class="form-control border-start-0"
+                    formControlName="password"
+                    placeholder="Enter your password"
+                    required
+                  />
+                  <span class="input-group-text bg-white" style="cursor: pointer;">
+                    <!-- <img src="assets/svgs/view-off.svg" alt="toggle" width="20" /> -->
+                  </span>
+                </div>
+              </div>
+  
+              <!-- Submit Button -->
+              <div class="mb-3">
+                <button type="submit" class="btn loginBtn w-100">Login</button>
+              </div>
+            </form>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

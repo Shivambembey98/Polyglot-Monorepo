@@ -1,0 +1,272 @@
+<div class="container-fluid py-2">
+  <div class="card p-3">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+      <!-- User Header -->
+      <div class="d-flex align-items-center">
+
+        <!-- Hidden File Input -->
+        <input
+          type="file"
+          id="fileInput"
+          accept="image/*"
+          hidden
+          #fileInput
+          (change)="onImageSelected($event)"
+        />
+
+        <!-- Clickable Avatar -->
+        <div
+          class="profile-edit d-flex align-items-center me-3"
+          (click)="fileInput.click()"
+          style="cursor: pointer"
+        >
+          <ng-container *ngIf="user?.profileImageUrl; else initialsAvatar">
+            <img
+              [src]="user.profileImageUrl"
+              alt="User Profile"
+              class="profile-img"
+              width="65"
+              height="65"
+            />
+          </ng-container>
+          <ng-template #initialsAvatar>
+            <div
+              class="profile-img-initials d-flex align-items-center justify-content-center"
+              style="width: 65px; height: 65px"
+            >
+              {{ getInitials(user.firstName, user.lastName) }}
+            </div>
+          </ng-template>
+        </div>
+
+        <!-- User Info -->
+        <div>
+          <h5 class="mb-0">{{ user.username }}</h5>
+          <small class="text-muted">{{ user.email }}</small>
+        </div>
+      </div>
+
+      <button
+        class="btn edit-btn d-flex align-items-center gap-2"
+        (click)="openEditProfile()"
+      >
+        <img src="../../../assets/icons/edit-pencil.svg" alt="" /> Edit Profile
+      </button>
+    </div>
+
+    <div class="profile-container gap-3">
+      <!-- Sidebar -->
+      <div class="sidebar-fixed d-none d-md-block">
+        <div class="list-group fixed-list-group">
+          <button
+            type="button"
+            class="list-group-item list-group-item-action"
+            [ngClass]="{ 'active-tab': selectedTab === 'profileSection' }"
+            (click)="setTab('profileSection')"
+          >
+            <img src="assets/icons/profile-icon.svg" alt="Profile Icon" />
+            Profile
+          </button>
+
+          <button
+            type="button"
+            class="list-group-item list-group-item-action"
+            [ngClass]="{ 'active-tab': selectedTab === 'loginDetailsSection' }"
+            (click)="setTab('loginDetailsSection')"
+          >
+            <img src="assets/icons/login-details.svg" alt="" /> Login Details
+          </button>
+
+          <button
+            type="button"
+            class="list-group-item list-group-item-action"
+            [ngClass]="{ 'active-tab': selectedTab === 'myBookingsSection' }"
+            (click)="setTab('myBookingsSection')"
+          >
+            <img src="assets/icons/my-bookings-icon.svg" alt="" /> My Bookings
+          </button>
+
+          <button
+            type="button"
+            class="list-group-item list-group-item-action"
+            [ngClass]="{ 'active-tab': selectedTab === 'coTravellersSection' }"
+            (click)="setTab('coTravellersSection')"
+          >
+            <img src="assets/icons/co-traveller.svg" alt="" /> Co-Travellers
+          </button>
+
+          <button
+            type="button"
+            class="list-group-item list-group-item-action text-danger"
+            (click)="logout()"
+          >
+            <img src="assets/icons/logout.svg" alt="" /> Logout
+          </button>
+        </div>
+      </div>
+
+      <div class="scrollable-content">
+        <!-- Profile Section -->
+        <div id="profileSection" class="card mb-4 shadow-sm">
+          <div class="card-body p-0">
+            <div class="section-header mt-3">
+              <h5 class="card-title">Profile</h5>
+              <small class="text-muted p-0"
+                >Basic info, fill the details to get a better experience</small
+              >
+            </div>
+            <hr />
+            <div class="row px-3">
+              <div class="col-sm-6 mb-3">
+                <span class="heading">First Name:</span> <br />
+                {{ user.firstName }}
+              </div>
+              <div class="col-sm-6 mb-3">
+                <span class="heading">Last Name:</span> <br />
+                {{ user.lastName }}
+              </div>
+              <div class="col-sm-6 mb-3">
+                <span class="heading">Date of Birth:</span> <br />
+                {{ user.dob }}
+              </div>
+              <div class="col-sm-6 mb-3">
+                <span class="heading">Gender:</span> <br />
+                {{ user.gender }}
+              </div>
+              <div class="col-sm-6 mb-3">
+                <span class="heading">Nationality:</span> <br />
+                {{ user.nationality }}
+              </div>
+              <div class="col-sm-6 mb-3">
+                <span class="heading">Address:</span> <br />
+                {{ user.address }}
+              </div>
+              <div class="col-sm-6 mb-3">
+                <span class="heading">City:</span> <br />
+                {{ user.city }}
+              </div>
+              <div class="col-sm-6 mb-3">
+                <span class="heading">State:</span> <br />
+                {{ user.state }}
+              </div>
+              <div class="col-sm-6 mb-3">
+                <span class="heading">Pin Code:</span> <br />
+                {{ user.pinCode }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Login Details Section -->
+        <div id="loginDetailsSection" class="card mb-4 shadow-sm">
+          <div class="card-body p-0">
+            <div class="section-header mt-3">
+              <h5 class="card-title">Login Details</h5>
+              <small class="text-muted"
+                >Manage your mobile number, email address and password</small
+              >
+            </div>
+            <hr />
+            <div class="row px-3">
+              <div class="col-sm-6 mb-3">
+                <span class="heading">Mobile Number:</span> <br />
+                {{ user.mobileNo }}
+              </div>
+              <div class="col-sm-6 mb-3">
+                <span class="heading">Email Address:</span> <br />
+                {{ user.email }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--My Booking Section -->
+        <div id="myBookingsSection" class="card mb-4 shadow-sm">
+          <div class="card-body p-0">
+            <div class="section-header mt-3">
+              <h5 class="card-title">My Bookings</h5>
+              <small class="text-muted">Your last trip you visit</small>
+            </div>
+            <hr />
+
+            <div class="table-responsive">
+              <table class="table align-middle">
+                <thead class="table-light">
+                  <tr>
+                    <th scope="col">S. No.</th>
+                    <th scope="col">Origin</th>
+                    <th scope="col">Destination</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let booking of bookings; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ booking.origin }}</td>
+                    <td>{{ booking.destination }}</td>
+                    <td>{{ booking.date | date : "dd/MMM/yy" }}</td>
+                    <td>₹{{ booking.amount }}</td>
+                    <td>
+                      <span
+                        class="badge fw-semibold"
+                        [ngClass]="{
+                          'bg-success bg-opacity-10 text-light':
+                            booking.status === 'Success',
+                          'bg-danger bg-opacity-10 text-danger':
+                            booking.status === 'Failed'
+                        }"
+                      >
+                        {{ booking.status }}
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Co Travellers Section -->
+        <div id="coTravellersSection" class="card shadow-sm">
+          <div class="card-body p-0">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div class="section-header mt-3">
+                <h5 class="card-title mb-0">Co-Travellers</h5>
+                <small class="text-muted"
+                  >Add, Remove and Update your traveller list</small
+                >
+              </div>
+              <button
+                class="btn add-traveller gap-2 me-3 btn-sm"
+                (click)="addTraveller()"
+              >
+                <img src="assets/icons/edit-pencil.svg" alt="" /> Add Traveller
+              </button>
+            </div>
+            <hr />
+
+            <div
+              *ngFor="let traveller of user.coTravellers"
+              class="d-flex align-items-center mb-3"
+            >
+              <img
+                src="assets/profile-placeholder.png"
+                alt="Traveller"
+                class="rounded-circle me-3"
+                width="40"
+                height="40"
+              />
+              <div>
+                <strong>{{ traveller.name }}</strong
+                ><br />
+                <small class="text-muted">{{ traveller.email }}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

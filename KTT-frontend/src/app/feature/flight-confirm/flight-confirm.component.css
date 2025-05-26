@@ -1,0 +1,11 @@
+.continue-btn {
+    background-color: var(--primary);
+    color: var(--white);
+  }
+  .dotted-line {
+    border-left: 2px dotted #000;
+    height: 30px;
+  }
+  .layover-time{
+    color: #EE6336;
+  }

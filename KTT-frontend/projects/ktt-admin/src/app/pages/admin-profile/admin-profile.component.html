@@ -1,0 +1,132 @@
+<div class="container py-4">
+    <div class="card p-4">
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <!-- User Header -->
+        <div class="d-flex align-items-center">
+          <!-- <img
+            src="assets/images/profile.svg"
+            alt="User Profile"
+            class="profile-img me-3"
+            width="65"
+            height="65"
+          /> -->
+          <div>
+            <h5 class="mb-0">{{ tenant.companyName }}</h5>
+            <small class="text-muted">{{ tenant.email }}</small>
+          </div>
+        </div>
+        <button
+        class="btn edit-btn d-flex align-items-center gap-2"
+        (click)="openEditProfile()"
+      >
+        <!-- <img src="../../../assets/icons/edit-pencil.svg" alt="" />  -->
+        Edit Profile
+      </button>
+      
+      </div>
+  
+      <div class="profile-container gap-3">
+  <!-- Sidebar -->
+  <div class="sidebar-fixed d-none d-md-block">
+      <div class="list-group fixed-list-group">
+        <button
+          type="button"
+          class="list-group-item list-group-item-action"
+          (click)="setTab('profileSection')"
+        >
+          <!-- <img src="assets/icons/profile-icon.svg" alt="Profile Icon" /> -->
+           Profile
+        </button>
+    
+        <button
+          type="button"
+          class="list-group-item list-group-item-action"
+          (click)="setTab('loginDetailsSection')"
+        >
+          <!-- <img src="assets/icons/login-details.svg" alt="" /> -->
+           Login Details
+        </button>
+    
+        <!-- <button
+          type="button"
+          class="list-group-item list-group-item-action"
+          [ngClass]="{ 'active-tab': selectedTab === 'myBookingsSection' }"
+          (click)="setTab('myBookingsSection')"
+        >
+          <img src="assets/icons/my-bookings-icon.svg" alt="" /> My Bookings
+        </button> -->
+    
+        <button
+          type="button"
+          class="list-group-item list-group-item-action text-danger"
+          (click)="logout()"
+        >
+          <!-- <img src="../../../../../../src/assets/icons/logout.svg" alt="" /> -->
+           Logout
+        </button>
+      </div>
+    </div>
+    
+        <div class="scrollable-content">
+          <!-- Profile Section -->
+          <div id="profileSection" class="card mb-4 shadow-sm">
+            <div class="card-body p-0">
+              <div class="section-header mt-3">
+              <h5 class="card-title">Profile</h5>
+              <small class="text-muted p-0"
+                >Basic info, fill the details to get a better experience</small
+              >
+             </div>
+              <hr />
+              <div class="row px-3">
+                <div class="col-sm-6 mb-3">
+                  <span class="heading">Name:</span> <br />
+                  {{ tenant.username }}
+                </div>
+                <div class="col-sm-6 mb-3">
+                  <span class="heading">Company Name:</span> <br />
+                  {{ tenant.companyName }}
+                </div>
+                <div class="col-sm-6 mb-3">
+                  <span class="heading">Tenant Name:</span> <br />
+                  {{ tenant.tenantName }}
+                </div>
+                <div class="col-sm-6 mb-3">
+                  <span class="heading">companyCode:</span> <br />
+                  {{ tenant.companyCode }}
+                </div>
+                <div class="col-sm-6 mb-3">
+                  <span class="heading">Status:</span> <br />
+                  {{ tenant.isActive }}
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Login Details Section -->
+          <div id="loginDetailsSection" class="card mb-4 shadow-sm">
+            <div class="card-body p-0">
+              <div class="section-header mt-3">
+              <h5 class="card-title">Login Details</h5>
+              <small class="text-muted"
+                >Manage your mobile number, email address and password</small
+              >
+          </div>
+              <hr />
+              <div class="row px-3">
+                <div class="col-sm-6 mb-3">
+                  <span class="heading">Mobile Number:</span> <br />
+                  {{ tenant.mobile }}
+                </div>
+                <div class="col-sm-6 mb-3">
+                  <span class="heading">Email Address:</span> <br />
+                  {{ tenant.email }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

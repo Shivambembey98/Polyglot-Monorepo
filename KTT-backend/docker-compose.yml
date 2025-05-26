@@ -1,0 +1,40 @@
+version: '3.8'
+services:
+  auth-service:
+    image: auth-service
+    ports:
+      - "8080:8080"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    env_file: ./auth-main/.env
+    networks:
+      - app-network
+
+  booking-service:
+    image: booking-service
+    ports:
+      - "8082:8082"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    env_file: ./booking/.env
+    networks:
+      - app-network
+
+  admin-service:
+    image: admin-service
+    ports:
+      - "9002:9002"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    env_file: ./admin/.env
+    networks:
+      - app-network
+
+networks:
+  app-network:

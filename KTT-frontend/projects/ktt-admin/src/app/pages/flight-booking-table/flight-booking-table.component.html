@@ -1,0 +1,76 @@
+<div class="container-fluid p-3 bg-white rounded-4 shadow-sm">
+    <!-- Search and Filter -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div class="w-50">
+        <input type="text" class="form-control rounded-pill" placeholder="🔍 Search" [(ngModel)]="searchText">
+      </div>
+      <button class="btn btn-outline-secondary rounded-pill">
+        <i class="bi bi-funnel"></i> Filter
+      </button>
+    </div>
+  
+    <!-- Table -->
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead class="text-muted">
+          <tr>
+            <th>User</th>
+            <th>Name</th>
+            <th>Mail ID</th>
+            <th>Mobile No.</th>
+            <th>PNR</th>
+            <th>Date</th>
+            <th>Transaction ID</th>
+            <th>Payment</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of filteredData()">
+            <td>
+              <img [src]="item.avatar" class="rounded-circle" width="40" height="40" alt="Avatar">
+            </td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.email }}</td>
+            <td>{{ item.phone }}</td>
+            <td>{{ item.pnr }}</td>
+            <td>{{ item.date }}</td>
+            <td>{{ item.transactionId }}</td>
+            <td>
+              <span class="badge payment-badge">{{ item.payment }}</span>
+            </td>
+            <td>
+              <span [ngClass]="getStatusClass(item.status)" class="badge">
+                {{ item.status }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <!-- Pagination -->
+    <div class="d-flex justify-content-between align-items-center mt-3">
+      <div>
+        Showing 
+        <select class="form-select d-inline-block w-auto ms-2 me-2" [(ngModel)]="itemsPerPage">
+          <option *ngFor="let n of [10, 20, 50]" [value]="n">{{ n }}</option>
+        </select>
+        entries
+      </div>
+      <nav>
+        <ul class="pagination pagination-sm mb-0">
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <button class="page-link" (click)="prevPage()">Prev</button>
+          </li>
+          <li class="page-item" *ngFor="let page of getPages()" [class.active]="page === currentPage">
+            <button class="page-link" (click)="goToPage(page)">{{ page }}</button>
+          </li>
+          <li class="page-item" [class.disabled]="currentPage === totalPages()">
+            <button class="page-link" (click)="nextPage()">Next</button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+  

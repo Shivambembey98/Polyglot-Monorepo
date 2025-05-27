@@ -1,9 +1,14 @@
 name: Build Project
 description: "Builds project using wrapper scripts"
 
+inputs:
+  project-dir:
+    description: "Directory of the project"
+    required: true
+
 runs:
   using: "composite"
   steps:
     - name: Run build wrapper
-      run: ./wrappers/build.sh
+      run: ${{ inputs.project-dir }}/wrappers/build.sh
       shell: bash

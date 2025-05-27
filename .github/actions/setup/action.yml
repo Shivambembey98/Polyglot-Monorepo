@@ -1,0 +1,12 @@
+name: Setup Environment
+description: "Sets up mise and installs tools"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up mise
+      uses: jdx/mise-action@v2
+
+    - name: Run bootstrap script
+      run: ../bootstrap.sh
+      shell: bash

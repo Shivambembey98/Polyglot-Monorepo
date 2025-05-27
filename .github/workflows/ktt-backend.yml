@@ -19,3 +19,5 @@ jobs:
 
       - name: Build Project
         uses: ./.github/actions/build
+        with:
+          project-dir: KTT-backend

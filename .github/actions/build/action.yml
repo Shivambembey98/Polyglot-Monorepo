@@ -6,3 +6,4 @@ runs:
     - name: Run build wrapper
       run: ./wrappers/build.sh
       shell: bash
+      working-directory: ${{ github.workspace }}

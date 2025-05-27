@@ -11,11 +11,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: ⬇️ Checkout code
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: 🛠 Install mise
+      - name: Install mise
         uses: jdx/mise-action@v2.0.2
 
-      - name: ⚙️ Run bootstrap script
+      - name: Run bootstrap script
         run: ./bootstrap.sh

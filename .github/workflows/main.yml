@@ -1,21 +1,21 @@
-name: Polyglot CI
+# name: Polyglot CI
 
-on:
-  push:
-    branches: 
-      - main
+# on:
+#   push:
+#     branches: 
+#       - main
 
-jobs:
+# jobs:
 
-  setup-and-build:
-    runs-on: ubuntu-latest
+#   setup-and-build:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
 
-      - name: Install mise
-        uses: jdx/mise-action@v2.0.2
+#       - name: Install mise
+#         uses: jdx/mise-action@v2.0.2
 
-      - name: Run bootstrap script
-        run: ./bootstrap.sh
+#       - name: Run bootstrap script
+#         run: ./bootstrap.sh

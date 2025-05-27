@@ -1,11 +1,11 @@
-name: CI for KTT-backend
+name: CI for Ktt-backend
 on:
   push:
     paths:
       - 'KTT-backend/**'
 
 jobs:
-  build:
+  ktt-backend-build:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -14,8 +14,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Bootstrap
-        run: ../bootstrap.sh
+      - name: Setup Environment
+        uses: ./.github/actions/setup
 
-      - name: Build
+      - name: Build Project
         uses: ./.github/actions/build

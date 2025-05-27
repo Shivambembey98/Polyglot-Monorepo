@@ -1,9 +1,9 @@
 name: Build Project
 description: "Builds project using wrapper scripts"
+
 runs:
   using: "composite"
   steps:
     - name: Run build wrapper
       run: ./wrappers/build.sh
       shell: bash
-      working-directory: ${{ github.workspace }}

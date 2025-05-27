@@ -1,0 +1,24 @@
+name: CI for KTT-frontend
+on:
+  push:
+    paths:
+      - 'KTT-frontend/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: KTT-frontend
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Bootstrap
+        run: ../bootstrap.sh
+
+      - name: Lint
+        uses: ./.github/actions/lint
+
+      - name: Build
+        uses: ./.github/actions/build

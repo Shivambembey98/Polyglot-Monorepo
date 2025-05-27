@@ -3,9 +3,6 @@ description: "Builds project using wrapper scripts"
 runs:
   using: "composite"
   steps:
-    - name: Set up mise
-      uses: jdx/mise-action@v2
-
     - name: Run build wrapper
       run: ./wrappers/build.sh
       shell: bash

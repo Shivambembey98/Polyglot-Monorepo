@@ -8,5 +8,6 @@ runs:
       uses: jdx/mise-action@v2
 
     - name: Run bootstrap script
-      run: ../bootstrap.sh
+      run: bash ./bootstrap.sh
       shell: bash
+      working-directory: ${{ github.workspace }}

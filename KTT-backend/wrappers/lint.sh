@@ -6,7 +6,11 @@ cd "$(dirname "$0")/.."
 
 # Example using Checkstyle if configured
 if [ -f "pom.xml" ]; then
-  mvn checkstyle:check || echo "Lint errors found."
+  # Checkstyle via Maven plugin
+  mvn checkstyle:check || {
+    echo "Attempting auto-format via spotless..."
+    mvn spotless:apply || echo "Could not auto-fix"
+  }
 else
   echo "No pom.xml found. Skipping lint."
 fi

@@ -12,10 +12,16 @@ jobs:
         working-directory: KTT-backend
 
     steps:
+      - name: Checkout repository
       - uses: actions/checkout@v3
 
       - name: Setup Environment
         uses: ./.github/actions/setup
+
+      - name: Lint Project
+        uses: ./.github/actions/lint
+        with:
+          project-dir: KTT-backend
 
       - name: Build Project
         uses: ./.github/actions/build

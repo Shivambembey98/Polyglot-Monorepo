@@ -1,0 +1,14 @@
+name: Lint Project
+description: "Lints project using wrapper scripts"
+
+inputs:
+  project-dir:
+    description: "Directory of the project"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run lint wrapper
+      run: ${{ inputs.project-dir }}/wrappers/lint.sh
+      shell: bash

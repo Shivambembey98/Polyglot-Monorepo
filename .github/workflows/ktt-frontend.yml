@@ -17,6 +17,11 @@ jobs:
       - name: Setup Environment
         uses: ./.github/actions/setup
 
+      - name: Lint Project
+        uses: ./.github/actions/lint
+        with:
+          project-dir: KTT-frontend
+
       - name: Build Project
         uses: ./.github/actions/build
         with:

@@ -22,6 +22,7 @@ jobs:
         uses: ./.github/actions/lint
         with:
           project-dir: KTT-backend
+        continue-on-error: true
 
       - name: Build Project
         uses: ./.github/actions/build

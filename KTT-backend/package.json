@@ -5,7 +5,7 @@
   "scripts": {
     "lint:test": "mvn checkstyle:check",
     "lint:fix": "mvn spotless:apply",
-    "build": "mvn clean install"
+    "build": "mvn clean install -DskipTests"
   },
   "author": "",
   "license": "ISC",

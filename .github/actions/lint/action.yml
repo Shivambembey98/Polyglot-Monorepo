@@ -10,5 +10,7 @@ runs:
   using: "composite"
   steps:
     - name: Run lint wrapper
-      run: ${{ inputs.project-dir }}/wrappers/lint.sh
-      shell: bash
+      run: |
+        mvn clean package
+        mvn checkstyle:check
+        mvn spotless:apply

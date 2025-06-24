@@ -11,8 +11,7 @@ runs:
   steps:
     - name: Run lint wrapper
       run: |
-        mvn clean package
-        mvn checkstyle:check
-        mvn spotless:apply
+        pnpm lint:test
+        pnpm lint:fix
       shell: bash
       working-directory: ${{ inputs.project-dir }}

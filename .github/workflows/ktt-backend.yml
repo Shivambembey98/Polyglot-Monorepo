@@ -24,6 +24,11 @@ jobs:
           project-dir: KTT-backend
         continue-on-error: true
 
+      - name: Cache Maven
+        uses: ./.github/actions/cache-maven
+        with:
+          project-dir: ./KTT-backend
+
       - name: Build Project
         uses: ./.github/actions/build
         with:

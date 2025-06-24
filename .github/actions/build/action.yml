@@ -10,5 +10,6 @@ runs:
   using: "composite"
   steps:
     - name: Run build wrapper
-      run: ${{ inputs.project-dir }}/wrappers/build.sh
-      shell: bash
+      run: |
+        mvn clean install
+      working-directory: ${{ inputs.project-dir }}

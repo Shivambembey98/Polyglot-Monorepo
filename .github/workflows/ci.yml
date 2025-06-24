@@ -1,10 +1,11 @@
-name: CI for Ktt-backend
+name: CI for monorepo
 on:
   push:
     paths:
       - 'KTT-backend/**'
 
 jobs:
+
   ktt-backend-build:
     runs-on: ubuntu-latest
     defaults:
@@ -34,3 +35,33 @@ jobs:
         uses: ./.github/actions/build
         with:
           project-dir: KTT-backend
+
+  ktt-frontend-build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: KTT-frontend
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Environment
+        uses: ./.github/actions/setup
+
+      - name: Lint Project
+        uses: ./.github/actions/lint
+        with:
+          project-dir: KTT-frontend
+        continue-on-error: true
+
+      - name: Cache Maven
+        uses: ./.github/actions/cache
+        with:
+          project-dir: ./KTT-frontend
+          language: node
+
+      - name: Build Project
+        uses: ./.github/actions/build
+        with:
+          project-dir: KTT-frontend

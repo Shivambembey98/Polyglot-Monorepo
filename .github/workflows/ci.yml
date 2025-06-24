@@ -1,13 +1,36 @@
 name: CI for monorepo
+
 on:
   push:
-    paths:
-      - 'KTT-backend/**'
+    branches:
+      - develop
 
 jobs:
 
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      backend: ${{ steps.filter.outputs.backend }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Detect changed folders
+        id: filter
+        uses: dorny/paths-filter@v2
+        with:
+          base: ${{ github.event.before }}
+          ref: ${{ github.sha }}
+          filters: |
+            backend:
+              - 'KTT-backend/**'
+            frontend:
+              - 'KTT-frontend/**'
+
   ktt-backend-build:
     runs-on: ubuntu-latest
+    needs: detect-changes
+    if: ${{ needs.detect-changes.outputs.backend == 'true' }}
     defaults:
       run:
         working-directory: KTT-backend
@@ -38,6 +61,8 @@ jobs:
 
   ktt-frontend-build:
     runs-on: ubuntu-latest
+    needs: detect-changes
+    if: ${{ needs.detect-changes.outputs.frontend == 'true' }}
     defaults:
       run:
         working-directory: KTT-frontend

@@ -23,6 +23,11 @@ jobs:
         with:
           project-dir: KTT-backend
 
+      - name: Cache Maven
+        uses: ./.github/actions/cache-maven
+        with:
+          project-dir: ./KTT-backend
+
       - name: Build Project
         uses: ./.github/actions/build
         with:

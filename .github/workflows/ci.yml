@@ -3,7 +3,10 @@ name: CI for monorepo
 on:
   push:
     branches:
-      - develop
+      - main
+    paths:
+      - 'KTT-backend/**'
+      - 'KTT-frontend/**'
 
 jobs:
 

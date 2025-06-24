@@ -1,18 +1,45 @@
-name: Cache Maven
-description: "Cache Maven local repository to speed up builds"
+name: Cache Dependencies
+description: "Cache dependencies for polyglot project"
 
 inputs:
   project-dir:
     description: "Directory of the project"
     required: true
+  language:
+    description: "Project language: node, java, python"
+    required: true
+  cache-version:
+    description: "Optional version for the cache key"
+    required: false
+    default: "v1"
 
 runs:
   using: "composite"
   steps:
-    - name: Cache Maven packages
+    - name: Cache for Maven
+      if: ${{ inputs.language == 'java' }}
       uses: actions/cache@v3
       with:
         path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        key: ${{ runner.os }}-maven-${{ inputs.cache-version }}-${{ hashFiles(format('{0}/**/pom.xml', inputs.project-dir)) }}
         restore-keys: |
-          ${{ runner.os }}-maven-
+          ${{ runner.os }}-maven-${{ inputs.cache-version }}-
+
+    - name: Cache for Node.js
+      if: ${{ inputs.language == 'node' }}
+      uses: actions/cache@v3
+      with:
+        path: |
+          ${{ inputs.project-dir }}/node_modules
+        key: ${{ runner.os }}-node-${{ inputs.cache-version }}-${{ hashFiles(format('{0}/package-lock.json', inputs.project-dir)) }}
+        restore-keys: |
+          ${{ runner.os }}-node-${{ inputs.cache-version }}-
+
+    - name: Cache for Python
+      if: ${{ inputs.language == 'python' }}
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ inputs.cache-version }}-${{ hashFiles(format('{0}/requirements.txt', inputs.project-dir)) }}
+        restore-keys: |
+          ${{ runner.os }}-pip-${{ inputs.cache-version }}-

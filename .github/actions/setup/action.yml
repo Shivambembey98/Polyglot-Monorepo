@@ -12,7 +12,12 @@ runs:
       with:
         version: 8.15.4
 
-    - name: Run bootstrap script
-      run: bash ./bootstrap.sh
+    - name: Install tools via mise
+      run: mise install
       shell: bash
       working-directory: ${{ github.workspace }}
+
+    # - name: Run bootstrap script
+    #   run: bash ./bootstrap.sh
+    #   shell: bash
+    #   working-directory: ${{ github.workspace }}

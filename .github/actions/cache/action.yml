@@ -1,0 +1,18 @@
+name: Cache Maven
+description: "Cache Maven local repository to speed up builds"
+
+inputs:
+  project-dir:
+    description: "Directory of the project"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Cache Maven packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-

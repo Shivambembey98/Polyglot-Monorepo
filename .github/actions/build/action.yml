@@ -11,6 +11,7 @@ runs:
   steps:
     - name: Run build wrapper
       run: |
+        pnpm install
         pnpm build
       shell: bash
       working-directory: ${{ inputs.project-dir }}

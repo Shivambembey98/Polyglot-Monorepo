@@ -12,4 +12,5 @@ runs:
     - name: Run build wrapper
       run: |
         mvn clean install
+      shell: bash
       working-directory: ${{ inputs.project-dir }}

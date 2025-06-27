@@ -1,45 +1,57 @@
-name: Cache Dependencies
-description: "Cache dependencies for polyglot project"
+name: "Smart Cache"
+description: "Automatically detects project language and applies appropriate caching strategy"
 
 inputs:
   project-dir:
-    description: "Directory of the project"
+    description: "Project directory"
     required: true
-  language:
-    description: "Project language: node, java, python"
-    required: true
-  cache-version:
-    description: "Optional version for the cache key"
-    required: false
-    default: "v1"
 
 runs:
   using: "composite"
   steps:
-    - name: Cache for Maven
-      if: ${{ inputs.language == 'java' }}
+    - name: Detect language
+      id: detect
+      run: |
+        cd "${{ inputs.project-dir }}"
+    
+        if [[ -f "pom.xml" ]]; then
+          echo "lang=java" >> $GITHUB_OUTPUT
+          echo "Detected: Java (via pom.xml)"
+        elif [[ -f "pyproject.toml" || -f "requirements.txt" ]]; then
+          echo "lang=python" >> $GITHUB_OUTPUT
+          echo "Detected: Python"
+        elif [[ -f "package.json" ]]; then
+          echo "lang=node" >> $GITHUB_OUTPUT
+          echo "Detected: Node.js"
+        else
+          echo "No recognizable language files found in ${{ inputs.project-dir }}"
+          exit 1
+        fi
+      shell: bash
+
+    - name: Cache for Java (Maven)
+      if: steps.detect.outputs.lang == 'java'
       uses: actions/cache@v3
       with:
         path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ inputs.cache-version }}-${{ hashFiles(format('{0}/**/pom.xml', inputs.project-dir)) }}
+        key: ${{ runner.os }}-maven-${{ hashFiles(format('{0}/**/pom.xml', inputs.project-dir)) }}
         restore-keys: |
-          ${{ runner.os }}-maven-${{ inputs.cache-version }}-
+          ${{ runner.os }}-maven-
 
-    - name: Cache for Node.js
-      if: ${{ inputs.language == 'node' }}
+    - name: Cache for Node.js (pnpm)
+      if: steps.detect.outputs.lang == 'node'
       uses: actions/cache@v3
       with:
-        path: |
-          ${{ inputs.project-dir }}/node_modules
-        key: ${{ runner.os }}-node-${{ inputs.cache-version }}-${{ hashFiles(format('{0}/package-lock.json', inputs.project-dir)) }}
+        path: ${{ inputs.project-dir }}/node_modules
+        key: ${{ runner.os }}-node-${{ hashFiles(format('{0}/pnpm-lock.yaml', inputs.project-dir)) }}
         restore-keys: |
-          ${{ runner.os }}-node-${{ inputs.cache-version }}-
+          ${{ runner.os }}-node-
 
     - name: Cache for Python
-      if: ${{ inputs.language == 'python' }}
+      if: steps.detect.outputs.lang == 'python'
       uses: actions/cache@v3
       with:
         path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ inputs.cache-version }}-${{ hashFiles(format('{0}/requirements.txt', inputs.project-dir)) }}
+        key: ${{ runner.os }}-python-${{ hashFiles(format('{0}/**/requirements.txt', inputs.project-dir)) }}
         restore-keys: |
-          ${{ runner.os }}-pip-${{ inputs.cache-version }}-
+          ${{ runner.os }}-python-

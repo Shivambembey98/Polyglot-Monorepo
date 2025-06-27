@@ -55,7 +55,6 @@ jobs:
         uses: ./.github/actions/cache
         with:
           project-dir: ./KTT-backend
-          language: java
 
       - name: Build Project
         uses: ./.github/actions/build
@@ -87,7 +86,6 @@ jobs:
         uses: ./.github/actions/cache
         with:
           project-dir: ./KTT-frontend
-          language: node
 
       - name: Build Project
         uses: ./.github/actions/build

@@ -4,10 +4,10 @@ on:
   push:
     branches:
       - '**'  # Trigger on all branches
-    paths:
-      - '.changeset/**'
-      - 'KTT-frontend/**/package.json'
-      - 'KTT-backend/**/package.json'
+    # paths:
+    #   - '.changeset/**'
+    #   - 'KTT-frontend/**/package.json'
+    #   - 'KTT-backend/**/package.json'
 
 jobs:
   release:

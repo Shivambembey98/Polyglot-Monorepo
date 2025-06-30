@@ -37,7 +37,7 @@ jobs:
           BRANCH_NAME="${GITHUB_REF#refs/heads/}"
           echo "branch=$BRANCH_NAME" >> $GITHUB_OUTPUT
 
-      # 👇 Only for feature/dev/PR branches (no version bump)
+      # Only for feature/dev/PR branches (no version bump)
       - name: Publish preview package
         if: steps.vars.outputs.branch != 'main'
         env:
@@ -46,7 +46,7 @@ jobs:
           echo "Publishing from non-main branch: ${{ steps.vars.outputs.branch }}"
           pnpm changeset publish
 
-      # 👇 Only on main: bump version, generate changelog, commit
+      # Only on main: bump version, generate changelog, commit
       - name: Version packages
         if: steps.vars.outputs.branch == 'main'
         run: pnpm changeset version

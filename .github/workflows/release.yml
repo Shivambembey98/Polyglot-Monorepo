@@ -21,10 +21,14 @@ jobs:
           node-version: 18
           cache: 'pnpm'
 
+      # THIS IS THE CRUCIAL STEP
       - name: Setup pnpm
         uses: pnpm/action-setup@v3
         with:
           version: 8.15.4
+
+      - name: Check pnpm version
+        run: pnpm --version
 
       - name: Install dependencies
         run: pnpm install

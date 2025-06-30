@@ -7,7 +7,17 @@ runs:
     - name: Set up mise
       uses: jdx/mise-action@v2
 
-    - name: Run bootstrap script
-      run: bash ./bootstrap.sh
+    - name: Install pnpm
+      uses: pnpm/action-setup@v3
+      with:
+        version: 8.15.4
+
+    - name: Install tools via mise
+      run: mise install
       shell: bash
       working-directory: ${{ github.workspace }}
+
+    # - name: Run bootstrap script
+    #   run: bash ./bootstrap.sh
+    #   shell: bash
+    #   working-directory: ${{ github.workspace }}

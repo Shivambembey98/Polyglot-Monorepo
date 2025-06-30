@@ -10,5 +10,8 @@ runs:
   using: "composite"
   steps:
     - name: Run build wrapper
-      run: ${{ inputs.project-dir }}/wrappers/build.sh
+      run: |
+        pnpm install --frozen-lockfile
+        pnpm build
       shell: bash
+      working-directory: ${{ inputs.project-dir }}

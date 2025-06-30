@@ -1,0 +1,93 @@
+name: CI for monorepo
+
+on:
+  push:
+    branches:
+      - develop
+    paths:
+      - 'KTT-backend/**'
+      - 'KTT-frontend/**'
+
+jobs:
+
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      backend: ${{ steps.filter.outputs.backend }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Detect changed folders
+        id: filter
+        uses: dorny/paths-filter@v2
+        with:
+          base: ${{ github.event.before }}
+          ref: ${{ github.sha }}
+          filters: |
+            backend:
+              - 'KTT-backend/**'
+            frontend:
+              - 'KTT-frontend/**'
+
+  ktt-backend-build:
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    if: ${{ needs.detect-changes.outputs.backend == 'true' }}
+    defaults:
+      run:
+        working-directory: KTT-backend
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Environment
+        uses: ./.github/actions/setup
+
+      - name: Lint Project
+        uses: ./.github/actions/lint
+        with:
+          project-dir: KTT-backend
+        continue-on-error: true
+
+      - name: Cache Maven
+        uses: ./.github/actions/cache
+        with:
+          project-dir: ./KTT-backend
+
+      - name: Build Project
+        uses: ./.github/actions/build
+        with:
+          project-dir: KTT-backend
+
+  ktt-frontend-build:
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    if: ${{ needs.detect-changes.outputs.frontend == 'true' }}
+    defaults:
+      run:
+        working-directory: KTT-frontend
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Environment
+        uses: ./.github/actions/setup
+
+      - name: Lint Project
+        uses: ./.github/actions/lint
+        with:
+          project-dir: KTT-frontend
+        continue-on-error: true
+
+      - name: Cache Maven
+        uses: ./.github/actions/cache
+        with:
+          project-dir: ./KTT-frontend
+
+      - name: Build Project
+        uses: ./.github/actions/build
+        with:
+          project-dir: KTT-frontend

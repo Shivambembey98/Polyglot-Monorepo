@@ -10,5 +10,8 @@ runs:
   using: "composite"
   steps:
     - name: Run lint wrapper
-      run: ${{ inputs.project-dir }}/wrappers/lint.sh
+      run: |
+        pnpm lint:test
+        pnpm lint:fix
       shell: bash
+      working-directory: ${{ inputs.project-dir }}

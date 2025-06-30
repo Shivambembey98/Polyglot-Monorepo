@@ -1,69 +1,68 @@
-name: Release and Publish Packages
+name: Changeset Release Workflow
 
 on:
   push:
     branches:
       - '**'
+    paths:
+      - '.changeset/**'
+      - 'KTT-frontend/**/package.json'
+      - 'KTT-backend/**/package.json'
 
 jobs:
-  release:
+  changeset-release:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: 'pnpm'
-          registry-url: 'https://registry.npmjs.org'
+      - name: Setup Environment (Node, pnpm)
+        uses: ./.github/actions/setup
 
-      - name: Enable Corepack (required for pnpm)
-        run: corepack enable
-
-      - name: Set up pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
+      - name: Enable Corepack and activate pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@8.15.4 --activate
 
       - name: Install dependencies
         run: pnpm install
 
-      - name: Check current branch
-        id: branch_check
+      - name: Get current branch
+        id: branch
         run: |
-          BRANCH_NAME=${GITHUB_REF#refs/heads/}
+          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
           echo "branch=$BRANCH_NAME" >> $GITHUB_OUTPUT
 
-      - name: Publish (on PR branches)
-        if: steps.branch_check.outputs.branch != 'main'
+      ################################################################
+      # 🔹 For PR/feature/develop branches — Only publish
+      ################################################################
+      - name: Publish from PR or dev branch
+        if: steps.branch.outputs.branch != 'main'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          echo "Detected PR branch: Skipping version bump"
+          echo "Non-main branch: publishing changes..."
           pnpm changeset publish
 
-      - name: Version Packages (on main branch)
-        if: steps.branch_check.outputs.branch == 'main'
+      ################################################################
+      # 🔸 For main branch — Version, commit, publish
+      ################################################################
+      - name: Version packages and commit changelogs
+        if: steps.branch.outputs.branch == 'main'
         run: |
-          echo "Detected main branch: Running version bump"
+          echo "Main branch: running changeset version + commit"
           pnpm changeset version
-
-      - name: Commit version and changelog
-        if: steps.branch_check.outputs.branch == 'main'
-        run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add .
-          git commit -m "chore: version bump via Changesets" || echo "No changes to commit"
+          git commit -m "chore: version bump via Changesets" || echo "Nothing to commit"
           git push origin main
 
-      - name: Publish to NPM (on main)
-        if: steps.branch_check.outputs.branch == 'main'
+      - name: Publish to npm (main branch)
+        if: steps.branch.outputs.branch == 'main'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: pnpm changeset publish

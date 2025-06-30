@@ -3,46 +3,38 @@ name: Release and Publish Packages
 on:
   push:
     branches:
-      - '**'  # Trigger on all branches
-    # paths:
-    #   - '.changeset/**'
-    #   - 'KTT-frontend/**/package.json'
-    #   - 'KTT-backend/**/package.json'
+      - '**'
 
 jobs:
   release:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout your repo
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # Setup Node.js and enable pnpm cache
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
           cache: 'pnpm'
 
-      # ✅ Fix: Install pnpm manually so it’s available in PATH
-      - name: Install pnpm
-        run: npm install -g pnpm@8.15.4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8.15.4
 
-      # Install project dependencies
       - name: Install dependencies
         run: pnpm install
 
-      # Get current branch name
       - name: Get current branch
         id: vars
         run: |
           BRANCH_NAME="${GITHUB_REF#refs/heads/}"
           echo "branch=$BRANCH_NAME" >> $GITHUB_OUTPUT
 
-      # For PR/dev branches — just publish
       - name: Publish on PR/dev branch
         if: steps.vars.outputs.branch != 'main'
         env:
@@ -51,7 +43,6 @@ jobs:
           echo "Publishing from feature/PR branch..."
           pnpm changeset publish
 
-      # For main branch — version, commit, and publish
       - name: Version packages on main
         if: steps.vars.outputs.branch == 'main'
         run: pnpm changeset version

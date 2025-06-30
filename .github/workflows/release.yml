@@ -1,0 +1,72 @@
+name: Release and Publish Packages
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Required for tags
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Check current branch
+        id: branch_check
+        run: |
+          BRANCH_NAME=${GITHUB_REF#refs/heads/}
+          echo "branch=$BRANCH_NAME" >> $GITHUB_OUTPUT
+
+      ################################################################
+      # 🔹 PR Branch Logic: Just publish (skip commit/version bump)
+      ################################################################
+      - name: Publish (on PR branches)
+        if: steps.branch_check.outputs.branch != 'main'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          echo "Detected PR branch: Skipping version bump"
+          pnpm changeset publish
+
+      ################################################################
+      # 🔸 Main Branch Logic: Version bump, commit, changelog, publish
+      ################################################################
+      - name: Version Packages (on main branch)
+        if: steps.branch_check.outputs.branch == 'main'
+        run: |
+          echo "Detected main branch: Running version bump"
+          pnpm changeset version
+
+      - name: Commit version and changelog
+        if: steps.branch_check.outputs.branch == 'main'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "chore: version bump via Changesets" || echo "No changes to commit"
+          git push origin main
+
+      - name: Publish to NPM (on main)
+        if: steps.branch_check.outputs.branch == 'main'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: pnpm changeset publish

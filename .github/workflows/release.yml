@@ -17,7 +17,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: 'npm' # We'll install pnpm via npm now
+          cache: 'pnpm' # We'll install pnpm via npm now
 
       - name: Install pnpm manually (skip corepack)
         run: |

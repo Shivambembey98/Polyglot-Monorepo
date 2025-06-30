@@ -1,55 +1,68 @@
-name: Release Workflow (No Corepack)
+name: Release and Publish Packages
 
 on:
   push:
     branches:
-      - '**'
+      - '**'  # Trigger on all branches
+    paths:
+      - '.changeset/**'
+      - 'KTT-frontend/**/package.json'
+      - 'KTT-backend/**/package.json'
 
 jobs:
   release:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      # Checkout your repo
+      - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Set up Node.js
+      # Setup Node.js and enable pnpm cache
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: 'pnpm' # We'll install pnpm via npm now
+          cache: 'pnpm'
 
-      - name: Install pnpm manually (skip corepack)
-        run: |
-          npm install -g pnpm@8.15.4
-          pnpm -v
+      # ✅ Fix: Install pnpm manually so it’s available in PATH
+      - name: Install pnpm
+        run: npm install -g pnpm@8.15.4
 
+      # Install project dependencies
       - name: Install dependencies
         run: pnpm install
 
+      # Get current branch name
       - name: Get current branch
         id: vars
         run: |
           BRANCH_NAME="${GITHUB_REF#refs/heads/}"
           echo "branch=$BRANCH_NAME" >> $GITHUB_OUTPUT
 
-      - name: Publish on PR or develop
+      # For PR/dev branches — just publish
+      - name: Publish on PR/dev branch
         if: steps.vars.outputs.branch != 'main'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: pnpm changeset publish
+        run: |
+          echo "Publishing from feature/PR branch..."
+          pnpm changeset publish
 
-      - name: Version packages
+      # For main branch — version, commit, and publish
+      - name: Version packages on main
         if: steps.vars.outputs.branch == 'main'
         run: pnpm changeset version
 
-      - name: Commit changelog + versions
+      - name: Commit version bump
         if: steps.vars.outputs.branch == 'main'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add .
-          git commit -m "chore: version bump via Changesets" || echo "No changes"
+          git commit -m "chore: version bump via Changesets" || echo "Nothing to commit"
           git push origin main
 
       - name: Publish to npm

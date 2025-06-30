@@ -3,7 +3,7 @@ name: Release and Publish Packages
 on:
   push:
     branches:
-      - '**'
+      - main
 
 jobs:
   release:
@@ -13,48 +13,43 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v3
-        with:
-          version: 8.15.4
-
-      - name: Setup Node.js
+      # Set up Node.js if needed
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: '20'    # use your desired version
 
-      - name: Check pnpm version
-        run: pnpm --version
-
+      # Install dependencies
       - name: Install dependencies
-        run: pnpm install
+        run: npm ci
 
-      - name: Get current branch
-        id: vars
+      # Build your project (if necessary)
+      - name: Build
+        run: npm run build
+
+      # Run tests (if you have them)
+      - name: Test
+        run: npm test
+
+      # Release/publish step (adjust to your needs)
+      - name: Release
+        run: npm run release    # or your custom release script
+
+      # Configure git for pushing changes
+      - name: Configure git
         run: |
-          BRANCH_NAME="${GITHUB_REF#refs/heads/}"
-          echo "branch=$BRANCH_NAME" >> $GITHUB_OUTPUT
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Publish on PR/dev branch
-        if: steps.vars.outputs.branch != 'main'
+      # Push changes using PAT
+      - name: Push changes
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GH_PAT: ${{ secrets.GH_PAT }}
         run: |
-          echo "Publishing from feature/PR branch..."
-          pnpm changeset publish
-
-      - name: Version packages on main
-        if: steps.vars.outputs.branch == 'main'
-        run: pnpm changeset version
-
-      - name: Commit version bump
-        if: steps.vars.outputs.branch == 'main'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${GH_PAT}@github.com/Shivambembey98/Polyglot-Monorepo.git
           git add .
-          git commit -m "chore: version bump via Changesets" || echo "Nothing to commit"
-          git push origin main
+          git commit -m "chore: release [skip ci]" || echo "No changes to commit"
+          git push origin HEAD:main
 
       - name: Publish to npm
         if: steps.vars.outputs.branch == 'main'

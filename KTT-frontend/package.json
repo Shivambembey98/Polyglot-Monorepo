@@ -1,6 +1,9 @@
 {
-  "name": "ktt",
-  "version": "0.0.0",
+  "name": "@shivambembey/ktt-frontend",
+  "version": "0.1.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -11,7 +14,6 @@
     "lint:test": "ng lint && npx eslint \"src/**/*.{ts,html}\"",
     "lint:fix": "ng lint --fix && npx eslint \"src/**/*.{ts,html}\" --fix"
   },
-  "private": true,
   "dependencies": {
     "@angular-slider/ngx-slider": "^18.0.0",
     "@angular/animations": "^18.2.0",

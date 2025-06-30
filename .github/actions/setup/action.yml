@@ -12,11 +12,11 @@ runs:
       with:
         version: 8.15.4
         
-    - name: Enable Corepack and prepare pnpm
-      run: |
-        corepack enable
-        corepack prepare pnpm@8.15.4 --activate
-      shell: bash
+    # - name: Enable Corepack and prepare pnpm
+    #   run: |
+    #     corepack enable
+    #     corepack prepare pnpm@8.15.4 --activate
+    #   shell: bash
 
     - name: Install tools via mise
       run: mise install

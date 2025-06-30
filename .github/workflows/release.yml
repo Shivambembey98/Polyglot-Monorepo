@@ -13,7 +13,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Required for tags
+          fetch-depth: 0
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -21,6 +21,9 @@ jobs:
           node-version: 18
           cache: 'pnpm'
           registry-url: 'https://registry.npmjs.org'
+
+      - name: Enable Corepack (required for pnpm)
+        run: corepack enable
 
       - name: Set up pnpm
         uses: pnpm/action-setup@v2
@@ -36,9 +39,6 @@ jobs:
           BRANCH_NAME=${GITHUB_REF#refs/heads/}
           echo "branch=$BRANCH_NAME" >> $GITHUB_OUTPUT
 
-      ################################################################
-      # 🔹 PR Branch Logic: Just publish (skip commit/version bump)
-      ################################################################
       - name: Publish (on PR branches)
         if: steps.branch_check.outputs.branch != 'main'
         env:
@@ -47,9 +47,6 @@ jobs:
           echo "Detected PR branch: Skipping version bump"
           pnpm changeset publish
 
-      ################################################################
-      # 🔸 Main Branch Logic: Version bump, commit, changelog, publish
-      ################################################################
       - name: Version Packages (on main branch)
         if: steps.branch_check.outputs.branch == 'main'
         run: |

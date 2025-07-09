@@ -38,6 +38,11 @@ jobs:
           BRANCH_NAME="${GITHUB_REF#refs/heads/}"
           echo "branch=$BRANCH_NAME" >> $GITHUB_OUTPUT
 
+      - name: Debug NPM_TOKEN
+        run: echo "NPM_TOKEN is ${#NPM_TOKEN} characters long"
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       # Only for feature/dev/PR branches (no version bump)
       - name: Publish preview package
         if: steps.vars.outputs.branch != 'main'

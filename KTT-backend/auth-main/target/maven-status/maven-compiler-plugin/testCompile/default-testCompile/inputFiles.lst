@@ -1,4 +1,4 @@
-/home/ec2-user/MonoRepo/KTT-backend/auth-main/src/test/java/com/ktt/services/EmailServiceTest.java
-/home/ec2-user/MonoRepo/KTT-backend/auth-main/src/test/java/com/ktt/services/ForgotPasswordServiceTest.java
-/home/ec2-user/MonoRepo/KTT-backend/auth-main/src/test/java/com/ktt/services/impl/AuthServiceTest.java
-/home/ec2-user/MonoRepo/KTT-backend/auth-main/src/test/java/com/ktt/services/impl/OtpServiceTest.java
+/home/ec2-user/Polyglot-Monorepo/KTT-backend/auth-main/src/test/java/com/ktt/services/EmailServiceTest.java
+/home/ec2-user/Polyglot-Monorepo/KTT-backend/auth-main/src/test/java/com/ktt/services/ForgotPasswordServiceTest.java
+/home/ec2-user/Polyglot-Monorepo/KTT-backend/auth-main/src/test/java/com/ktt/services/impl/AuthServiceTest.java
+/home/ec2-user/Polyglot-Monorepo/KTT-backend/auth-main/src/test/java/com/ktt/services/impl/OtpServiceTest.java

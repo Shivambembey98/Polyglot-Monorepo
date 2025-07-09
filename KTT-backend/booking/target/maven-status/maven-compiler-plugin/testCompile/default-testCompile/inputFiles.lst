@@ -1,8 +1,8 @@
-/home/ec2-user/MonoRepo/KTT-backend/booking/src/test/java/com/ktt/BookingApplicationTests.java
-/home/ec2-user/MonoRepo/KTT-backend/booking/src/test/java/com/ktt/controller/BookingControllerTest.java
-/home/ec2-user/MonoRepo/KTT-backend/booking/src/test/java/com/ktt/controller/SearchControllerTest.java
-/home/ec2-user/MonoRepo/KTT-backend/booking/src/test/java/com/ktt/requestbuilder/AirPriceRequestBuilderTest.java
-/home/ec2-user/MonoRepo/KTT-backend/booking/src/test/java/com/ktt/requestbuilder/AirRetrieveRequestBuilderTest.java
-/home/ec2-user/MonoRepo/KTT-backend/booking/src/test/java/com/ktt/requestbuilder/AirTicketRequestBuilderTest.java
-/home/ec2-user/MonoRepo/KTT-backend/booking/src/test/java/com/ktt/requestbuilder/LfsRequestBuilderTest.java
-/home/ec2-user/MonoRepo/KTT-backend/booking/src/test/java/com/ktt/service/BookingServiceTest.java
+/home/ec2-user/Polyglot-Monorepo/KTT-backend/booking/src/test/java/com/ktt/BookingApplicationTests.java
+/home/ec2-user/Polyglot-Monorepo/KTT-backend/booking/src/test/java/com/ktt/controller/BookingControllerTest.java
+/home/ec2-user/Polyglot-Monorepo/KTT-backend/booking/src/test/java/com/ktt/controller/SearchControllerTest.java
+/home/ec2-user/Polyglot-Monorepo/KTT-backend/booking/src/test/java/com/ktt/requestbuilder/AirPriceRequestBuilderTest.java
+/home/ec2-user/Polyglot-Monorepo/KTT-backend/booking/src/test/java/com/ktt/requestbuilder/AirRetrieveRequestBuilderTest.java
+/home/ec2-user/Polyglot-Monorepo/KTT-backend/booking/src/test/java/com/ktt/requestbuilder/AirTicketRequestBuilderTest.java
+/home/ec2-user/Polyglot-Monorepo/KTT-backend/booking/src/test/java/com/ktt/requestbuilder/LfsRequestBuilderTest.java
+/home/ec2-user/Polyglot-Monorepo/KTT-backend/booking/src/test/java/com/ktt/service/BookingServiceTest.java

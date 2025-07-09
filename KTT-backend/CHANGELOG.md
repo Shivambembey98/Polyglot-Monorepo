@@ -1,5 +1,15 @@
 # ktt-backend
 
+## 3.1.0
+
+### Minor Changes
+
+- 5d43c41: nothing to commit
+
+### Patch Changes
+
+- 33f444e: adding emptyfile
+
 ## 3.0.0
 
 ### Major Changes
